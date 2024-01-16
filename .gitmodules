@@ -1,0 +1,23 @@
+[submodule "impls/IceDragon200/1brc_ex"]
+  path = impls/IceDragon200/1brc_ex
+  url = https://github.com/IceDragon200/1brc_ex
+
+[submodule "impls/jesperes/erlang_1brc"]
+  path = impls/jesperes/erlang_1brc
+  url = https://github.com/jesperes/erlang_1brc
+
+[submodule "impls/Kartstig/1brc_erl"]
+  path = impls/Kartstig/1brc_erl
+  url = https://github.com/Kartstig/1brc_erl
+
+[submodule "impls/mnfloresv/1brc-elixir"]
+  path = impls/mnfloresv/1brc-elixir
+  url = https://github.com/mnfloresv/1brc-elixir
+
+[submodule "impls/rparcus/ex_1brc"]
+  path = impls/rparcus/ex_1brc
+  url = https://github.com/rparcus/ex_1brc
+
+[submodule "impls/rrcook/brc"]
+  path = impls/rrcook/brc
+  url = https://github.com/rrcook/brc
