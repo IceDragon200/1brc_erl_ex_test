@@ -5,6 +5,14 @@ tl;dr
 ./test_impls.sh
 ```
 
+## 1BRC?
+
+tl;dr Process a file containing 1 billion rows, you must print the result which should be ordered by the name along with the min,mean and max values.
+
+Look at the original repo: https://github.com/gunnarmorling/1brc
+
+And for the discussion that sparked this repo: https://github.com/gunnarmorling/1brc/discussions/93
+
 ## Installation
 
 ```bash
