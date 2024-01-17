@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-cmd="/usr/bin/time -v"
+timecmd="/usr/bin/time -v"
+branchcmd="git branch -v"
 outdir=$(pwd)/out
 owd=$(pwd)
 impldir=$(pwd)/impls

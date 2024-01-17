@@ -4,9 +4,34 @@ source ./common.sh
 echo "Doing some setup"
 
 #
+cd "${impldir}/andypho/1brc"
+# as of this writing, there are no deps, however we need to resolve the mix file
+mix deps.get
+mix compile
+cat <<__EOF__ > ./run.exs
+#!/usr/bin/env -S mix run
+OneBrc.calculate_average("./measurements.txt")
+__EOF__
+chmod +x ./run.exs
+cd "${owd}"
+
+#
 cd "${impldir}/rparcus/ex_1brc"
 mix deps.get
 mix compile
+cat <<__EOF__ > ./run-with_explorer.exs
+#!/usr/bin/env -S mix run
+WithExplorer.run()
+__EOF__
+cat <<__EOF__ > ./run-just_elixir.exs
+#!/usr/bin/env -S mix run
+JustElixir.run()
+__EOF__
+cat <<__EOF__ > ./run-better_file_reader.exs
+#!/usr/bin/env -S mix run
+BetterFileReader.run()
+__EOF__
+chmod +x ./run-*.exs
 cd "${owd}"
 
 #

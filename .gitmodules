@@ -1,3 +1,7 @@
+[submodule "impls/andypho/1brc"]
+  path = impls/andypho/1brc
+  url = https://github.com/andypho/1brc
+
 [submodule "impls/IceDragon200/1brc_ex"]
   path = impls/IceDragon200/1brc_ex
   url = https://github.com/IceDragon200/1brc_ex
