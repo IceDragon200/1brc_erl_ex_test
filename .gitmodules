@@ -25,3 +25,7 @@
 [submodule "impls/rrcook/brc"]
   path = impls/rrcook/brc
   url = https://github.com/rrcook/brc
+
+[submodule "impls/stevensonmt/brc"]
+  path = impls/stevensonmt/brc
+  url = https://github.com/stevensonmt/brc

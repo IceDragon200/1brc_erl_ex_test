@@ -40,3 +40,17 @@ mix deps.get
 mix compile
 mix escript.build
 cd "${owd}"
+
+cd "${impldir}/stevensonmt/brc"
+mix deps.get
+mix compile
+cat <<__EOF__ > ./run-1B.exs
+#!/usr/bin/env -S mix run
+Brc.main("./measurements.txt", 1_000_000_000)
+__EOF__
+cat <<__EOF__ > ./run-50M.exs
+#!/usr/bin/env -S mix run
+Brc.main("./measurements.txt", 50_000_000)
+__EOF__
+chmod +x ./run-*.exs
+cd "${owd}"
