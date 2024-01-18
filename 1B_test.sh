@@ -27,7 +27,7 @@ cd "${owd}"
 sleep 5
 cd "${impldir}/mnfloresv/1brc-elixir"
 ln -sf "${data_1B_path}" ./measurements.txt
-($branchcmd && $timecmd ./calculate_average.exs 2>&1) > "${outdir}/mnfloresv.1B.txt"
+($branchcmd && $timecmd mix run --no-mix-exs ./calculate_average.exs 2>&1) > "${outdir}/mnfloresv.1B.txt"
 cd "${owd}"
 
 sleep 5

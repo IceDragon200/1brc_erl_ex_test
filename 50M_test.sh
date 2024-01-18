@@ -30,7 +30,7 @@ for x in 0 1; do
   sleep 5
   cd "$impldir/mnfloresv/1brc-elixir"
   ln -sf "${data_50M_path}" ./measurements.txt
-  ($branchcmd && $timecmd ./calculate_average.exs 2>&1) > "${outdir}/mnfloresv.50M.txt"
+  ($branchcmd && $timecmd mix run --no-mix-exs ./calculate_average.exs 2>&1) > "${outdir}/mnfloresv.50M.txt"
   cd "${owd}"
 
   sleep 5
@@ -45,7 +45,7 @@ for x in 0 1; do
   sleep 5
   cd "${impldir}/rrcook/brc"
   ln -sf "${data_50M_path}" ./measurements.txt
-  ($branchcmd && $timecmd ./run.exs "${data_50M_path}" 2>&1) > "${outdir}/rrcook.50M.txt"
+  ($branchcmd && $timecmd ./brc "${data_50M_path}" 2>&1) > "${outdir}/rrcook.50M.txt"
   cd "${owd}"
 
   sleep 5
