@@ -16,7 +16,7 @@ chmod +x ./run.exs
 cd "${owd}"
 
 #
-cd "${impldir}/garazdawi/ex_1brc"
+cd "${impldir}/garazdawi/erlang_1brc"
 ./setup.sh
 cd "${owd}"
 
