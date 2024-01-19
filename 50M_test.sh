@@ -12,6 +12,8 @@ for x in 0 1; do
   sleep 5
   ./scripts/impls/50M/andypho.sh "${data_50M_path}"
   sleep 5
+  ./scripts/impls/50M/garazdawi.sh "${data_50M_path}"
+  sleep 5
   ./scripts/impls/50M/IceDragon200.sh "${data_50M_path}"
   sleep 5
   ./scripts/impls/50M/Kartstig.sh "${data_50M_path}"
