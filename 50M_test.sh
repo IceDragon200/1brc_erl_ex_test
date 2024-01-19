@@ -24,5 +24,5 @@ for x in 0 1; do
   sleep 5
   ./scripts/impls/50M/rrcook.sh "${data_50M_path}"
   sleep 5
-  ./scripts/impls/50M/stvensonmt.sh "${data_50M_path}"
+  ./scripts/impls/50M/stevensonmt.sh "${data_50M_path}"
 done

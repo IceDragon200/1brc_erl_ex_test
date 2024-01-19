@@ -21,4 +21,4 @@ sleep 5
 sleep 5
 ./scripts/impls/1B/rrcook.sh "${data_1B_path}"
 sleep 5
-./scripts/impls/1B/stvensonmt.sh "${data_1B_path}"
+./scripts/impls/1B/stevensonmt.sh "${data_1B_path}"
