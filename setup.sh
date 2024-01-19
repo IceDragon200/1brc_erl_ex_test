@@ -17,7 +17,7 @@ cd "${owd}"
 
 #
 cd "${impldir}/garazdawi/ex_1brc"
-rebar3 escriptize
+./setup.sh
 cd "${owd}"
 
 #
