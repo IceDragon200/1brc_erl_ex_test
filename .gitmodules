@@ -2,6 +2,10 @@
   path = impls/andypho/1brc
   url = https://github.com/andypho/1brc
 
+[submodule "impls/garazdawi/erlang_1brc"]
+  path = impls/garazdawi/erlang_1brc
+  url = https://github.com/garazdawi/erlang_1brc
+
 [submodule "impls/IceDragon200/1brc_ex"]
   path = impls/IceDragon200/1brc_ex
   url = https://github.com/IceDragon200/1brc_ex

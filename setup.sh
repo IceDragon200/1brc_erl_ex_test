@@ -16,6 +16,11 @@ chmod +x ./run.exs
 cd "${owd}"
 
 #
+cd "${impldir}/garazdawi/ex_1brc"
+rebar3 escriptize
+cd "${owd}"
+
+#
 cd "${impldir}/rparcus/ex_1brc"
 mix deps.get
 mix compile
