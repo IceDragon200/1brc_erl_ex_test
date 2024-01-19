@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S bash -x
 source ./common.sh
 # In case you want to cleanup between runs
 # rm -rf "${outdir}"

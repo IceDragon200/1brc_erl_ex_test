@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S bash -x
 source ./common.sh
 
 echo "Doing some setup"
