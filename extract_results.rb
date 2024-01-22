@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 out_dir = ARGV.first
-
 results_1b = {}
 results_50m = {}
 
@@ -34,18 +33,53 @@ Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
   end
 end
 
+keys = results_50m.keys
+
+###
+# First let's print the 50M results
+###
+
 rows = [
-  "| Contributor | Time (50M) | CPU% (50M) | Mem kb (50M) | Time (1B) | CPU% (1B) | Mem kb (1B) | Comments |",
-  "| ----------- | ---------- | ---------- | ------------ | --------- | --------- | ----------- | -------- |",
+  "| Contributor | Time (50M) | CPU% (50M) | Mem kb (50M) | Comments |",
+  "| ----------- | ---------- | ---------- | ------------ | -------- |",
 ]
 
-template = "| %40s | %10s | %10s | %12s | %9s | %9s | %11s | %8s |"
+template = "| %40s | %10s | %10s | %12s | %9s |"
 
-keys = results_1b.keys | results_50m.keys
-keys.each do |key|
+# Sort keys based on the Time (50M) in ascending order
+sorted_keys = keys.sort_by { |key| results_50m[key][0] }
+
+sorted_keys.each do |key|
   time50M, cpu50M, mem50M = *results_50m[key]
+
+  rows.push(template % [key, time50M, cpu50M, mem50M, ""])
+end
+puts "Here are the 50M Results:"
+puts rows
+
+puts ""
+puts ""
+puts ""
+
+###
+# Now let's print the 1B results
+###
+keys = results_1b.keys
+
+rows = [
+  "| Contributor | Time (1B) | CPU% (1B) | Mem kb (1B) | Comments |",
+  "| ----------- | ---------- | ---------- | ------------ | -------- |",
+]
+
+template = "| %40s | %10s | %10s | %12s | %9s |"
+
+# Sort keys based on the Time (1B) in ascending order
+sorted_keys = keys.sort_by { |key| results_1b[key][0] }
+
+sorted_keys.each do |key|
   time1B, cpu1B, mem1B = *results_1b[key]
 
-  rows.push(template % [key, time50M, cpu50M, mem50M, time1B, cpu1B, mem1B, ""])
+  rows.push(template % [key, time1B, cpu1B, mem1B, ""])
 end
+puts "Here are the 1B Results:"
 puts rows

@@ -33,3 +33,7 @@
 [submodule "impls/stevensonmt/brc"]
   path = impls/stevensonmt/brc
   url = https://github.com/stevensonmt/brc
+
+[submodule "impls/onno-vos-dev/1brc"]
+	path = impls/onno-vos-dev/1brc
+	url = https://github.com/onno-vos-dev/1brc
