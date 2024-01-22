@@ -3,7 +3,7 @@
 if [ "$(uname)" == "Darwin" ]; then
   timecmd="gtime -v"
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-  timecmd="time -v"
+  timecmd="/usr/bin/time -v"
 else
   echo "Only Linux and Mac supported at this time"
   exit 1

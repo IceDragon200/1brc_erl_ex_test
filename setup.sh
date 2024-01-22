@@ -62,5 +62,8 @@ cd "${owd}"
 
 #
 cd "${impldir}/onno-vos-dev/1brc"
-rebar3 compile
+erlc src/brc_processor.erl
+erlc src/brc_reader.erl
+erlc src/brc_workers.erl
+erlc src/brc.erl
 cd "${owd}"
