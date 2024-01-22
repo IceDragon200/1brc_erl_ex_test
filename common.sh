@@ -1,4 +1,4 @@
-#!/usr/bin/env bas
+#!/usr/bin/env bash
 
 if [ "$(uname)" == "Darwin" ]; then
   timecmd="gtime -v"
