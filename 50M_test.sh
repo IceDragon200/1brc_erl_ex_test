@@ -2,7 +2,7 @@
 source ./common.sh
 mkdir -p "${outdir}"
 
-data_50M_path=/data/1brc/measurements_50M.txt
+data_50M_path=$(realpath $1)
 #
 #
 #
@@ -13,6 +13,8 @@ for x in 0 1; do
   ./scripts/impls/50M/andypho.sh "${data_50M_path}"
   sleep 5
   ./scripts/impls/50M/garazdawi.sh "${data_50M_path}"
+  sleep 5
+  ./scripts/impls/50M/jesperes.sh "${data_50M_path}"
   sleep 5
   ./scripts/impls/50M/IceDragon200.sh "${data_50M_path}"
   sleep 5
@@ -25,4 +27,6 @@ for x in 0 1; do
   ./scripts/impls/50M/rrcook.sh "${data_50M_path}"
   sleep 5
   ./scripts/impls/50M/stevensonmt.sh "${data_50M_path}"
+  sleep 5
+  ./scripts/impls/50M/onno-vos-dev.sh "${data_50M_path}"
 done

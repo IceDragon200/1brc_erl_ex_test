@@ -7,5 +7,5 @@ data_path=$1
 # he left the original aggregate.erl intact so we can run it via his scaffold
 cd "${impldir}/garazdawi/erlang_1brc"
 ln -sf "${data_path}" ./measurements.txt
-($branchcmd && MODULE=aggregate $timecmd ./run.sh ./measurements.txt 2>&1) > "${outdir}/jesperes.50M.txt"
+($branchcmd && $timecmd ./run.sh ./measurements.txt "aggregate" 2>&1) > "${outdir}/jesperes.50M.txt"
 cd "${owd}"

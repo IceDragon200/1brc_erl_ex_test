@@ -59,3 +59,11 @@ Brc.main("./measurements.txt", 50_000_000)
 __EOF__
 chmod +x ./run-*.exs
 cd "${owd}"
+
+#
+cd "${impldir}/onno-vos-dev/1brc"
+erlc src/brc_processor.erl
+erlc src/brc_reader.erl
+erlc src/brc_workers.erl
+erlc src/brc.erl
+cd "${owd}"
