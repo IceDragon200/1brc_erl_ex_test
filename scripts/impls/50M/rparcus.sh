@@ -1,7 +1,7 @@
 #!/usr/bin/env -S bash -x
 source ./common.sh
 mkdir -p "${outdir}"
-data_path=$1
+data_path=$(realpath $1)
 
 cd "$impldir/rparcus/ex_1brc"
 mkdir -p data
