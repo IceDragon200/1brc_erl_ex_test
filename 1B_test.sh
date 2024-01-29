@@ -26,3 +26,5 @@ sleep 5
 ./scripts/impls/1B/stevensonmt.sh "${data_1B_path}"
 sleep 5
 ./scripts/impls/1B/onno-vos-dev.sh "${data_1B_path}"
+sleep 5
+./scripts/impls/1B/mneumann.sh "${data_1B_path}"

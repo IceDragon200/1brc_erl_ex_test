@@ -37,3 +37,6 @@
 [submodule "impls/onno-vos-dev/1brc"]
 	path = impls/onno-vos-dev/1brc
 	url = https://github.com/onno-vos-dev/1brc
+[submodule "impls/mneumann/1brc-elixir"]
+	path = impls/mneumann/1brc-elixir
+	url = https://github.com/mneumann/1brc-elixir
