@@ -7,6 +7,7 @@ Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
   time = nil
   cpu = nil
   mem = nil
+  exit_status = nil
 
   File.read(filename).each_line do |line|
     case line
@@ -18,6 +19,8 @@ Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
 
     when /\A\s+Maximum resident set size \(kbytes\):\s+(.+)\n/
       mem = $1
+    when /\A\s+Exit status:\s+(\d+)\n/
+      exit_status = ($1).to_i
 
     else
       p line
@@ -26,10 +29,10 @@ Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
 
   case File.basename(filename).split(".")
   in [contrib, "1B", "txt"]
-    results_1b[contrib] = [time, cpu, mem]
+    results_1b[contrib] = [time, cpu, mem, exit_status]
 
   in [contrib, "50M", "txt"]
-    results_50m[contrib] = time, cpu, mem
+    results_50m[contrib] = [time, cpu, mem, exit_status]
   end
 end
 
@@ -50,9 +53,11 @@ template = "| %40s | %10s | %10s | %12s | %9s |"
 sorted_keys = keys.sort_by { |key| results_50m[key][0] }
 
 sorted_keys.each do |key|
-  time50M, cpu50M, mem50M = *results_50m[key]
+  time50M, cpu50M, mem50M, exitStatus50M = *results_50m[key]
 
-  rows.push(template % [key, time50M, cpu50M, mem50M, ""])
+  comment = if exitStatus50M == 0 then "" else "Exit status: #{exitStatus50M}" end
+
+  rows.push(template % [key, time50M, cpu50M, mem50M, comment])
 end
 puts "Here are the 50M Results:"
 puts rows
@@ -67,7 +72,7 @@ puts ""
 keys = results_1b.keys
 
 rows = [
-  "| Contributor | Time (1B) | CPU% (1B) | Mem kb (1B) | Comments |",
+  "| Contributor | Time (1B)  | CPU% (1B)  | Mem kb (1B)  | Comments |",
   "| ----------- | ---------- | ---------- | ------------ | -------- |",
 ]
 
@@ -77,9 +82,11 @@ template = "| %40s | %10s | %10s | %12s | %9s |"
 sorted_keys = keys.sort_by { |key| results_1b[key][0] }
 
 sorted_keys.each do |key|
-  time1B, cpu1B, mem1B = *results_1b[key]
+  time1B, cpu1B, mem1B, exitStatus1B = *results_1b[key]
 
-  rows.push(template % [key, time1B, cpu1B, mem1B, ""])
+  comment = if exitStatus1B == 0 then "" else "Exit status: #{exitStatus1B}" end
+
+  rows.push(template % [key, time1B, cpu1B, mem1B, comment])
 end
 puts "Here are the 1B Results:"
 puts rows
