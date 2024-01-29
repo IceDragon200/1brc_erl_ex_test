@@ -29,4 +29,6 @@ for x in 0 1; do
   ./scripts/impls/50M/stevensonmt.sh "${data_50M_path}"
   sleep 5
   ./scripts/impls/50M/onno-vos-dev.sh "${data_50M_path}"
+  sleep 5
+  ./scripts/impls/50M/mneumann.sh "${data_50M_path}"
 done
