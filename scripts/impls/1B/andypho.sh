@@ -5,5 +5,5 @@ data_path=$(realpath $1)
 
 cd "$impldir/andypho/1brc"
 ln -sf "${data_path}" ./measurements.txt
-($branchcmd && $timecmd ./run.exs 2>&1) > "${outdir}/andypho.1B.txt"
+(git_metadata && $timecmd ./run.exs 2>&1) > "${outdir}/andypho.1B.txt"
 cd "${owd}"

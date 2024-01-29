@@ -9,7 +9,10 @@ else
   exit 1
 fi
 
-branchcmd="git branch -v"
+git_metadata() {
+  git branch -v
+  echo "Commit-Hash: $(git rev-parse HEAD)"
+}
 outdir=$(pwd)/out
 owd=$(pwd)
 impldir=$(pwd)/impls
