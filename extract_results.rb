@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 out_dir = ARGV.first
-results_1b = {}
-results_50m = {}
+results = {}
 
 Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
   time = nil
@@ -27,66 +26,47 @@ Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
     end
   end
 
+  contrib, bench =
   case File.basename(filename).split(".")
   in [contrib, "1B", "txt"]
-    results_1b[contrib] = [time, cpu, mem, exit_status]
-
+    [contrib, "1B"]
   in [contrib, "50M", "txt"]
-    results_50m[contrib] = [time, cpu, mem, exit_status]
+    [contrib, "50M"]
   end
+
+  result = {contrib: contrib, time: time, cpu: cpu, mem: mem, exit_status: exit_status}
+
+  results[bench] ||= []
+  results[bench] << result
 end
 
-keys = results_50m.keys
+def print_results(results, variant)
+  template = "| %40s | %10s | %10s | %12s | %9s |"
 
-###
-# First let's print the 50M results
-###
+  puts "Here are the #{variant} Results:"
+  puts "| Contributor | Time (#{variant}) | CPU% (#{variant}) | Mem kb (#{variant}) | Comments |"
+  puts "| ----------- | ---------- | ---------- | ------------ | -------- |",
 
-rows = [
-  "| Contributor | Time (50M) | CPU% (50M) | Mem kb (50M) | Comments |",
-  "| ----------- | ---------- | ---------- | ------------ | -------- |",
-]
+  results.sort_by {|r| r[:time]}.each do |r|
+    failed = r[:exit_status] != 0
+    comment = if failed then "Failed with: #{r[:exit_status]}" else "" end
 
-template = "| %40s | %10s | %10s | %12s | %9s |"
+    values = [r[:contrib], r[:time], r[:cpu], r[:mem], comment]
 
-# Sort keys based on the Time (50M) in ascending order
-sorted_keys = keys.sort_by { |key| results_50m[key][0] }
+    # Strike-trough failed results
+    if failed
+      values = values.map {|v| "~~#{v}~~"}
+    end
 
-sorted_keys.each do |key|
-  time50M, cpu50M, mem50M, exitStatus50M = *results_50m[key]
+    puts(template % values)
+  end
 
-  comment = if exitStatus50M == 0 then "" else "Exit status: #{exitStatus50M}" end
-
-  rows.push(template % [key, time50M, cpu50M, mem50M, comment])
+  puts ""
+  puts ""
+  puts ""
 end
-puts "Here are the 50M Results:"
-puts rows
 
-puts ""
-puts ""
-puts ""
+print_results(results["50M"], "50M")
+print_results(results["1B"], "1B")
 
-###
-# Now let's print the 1B results
-###
-keys = results_1b.keys
 
-rows = [
-  "| Contributor | Time (1B)  | CPU% (1B)  | Mem kb (1B)  | Comments |",
-  "| ----------- | ---------- | ---------- | ------------ | -------- |",
-]
-
-template = "| %40s | %10s | %10s | %12s | %9s |"
-
-# Sort keys based on the Time (1B) in ascending order
-sorted_keys = keys.sort_by { |key| results_1b[key][0] }
-
-sorted_keys.each do |key|
-  time1B, cpu1B, mem1B, exitStatus1B = *results_1b[key]
-
-  comment = if exitStatus1B == 0 then "" else "Exit status: #{exitStatus1B}" end
-
-  rows.push(template % [key, time1B, cpu1B, mem1B, comment])
-end
-puts "Here are the 1B Results:"
-puts rows
