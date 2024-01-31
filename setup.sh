@@ -67,3 +67,8 @@ erlc src/brc_reader.erl
 erlc src/brc_workers.erl
 erlc src/brc.erl
 cd "${owd}"
+
+#
+cd "${impldir}/jesperes/erlang_1brc"
+./setup.sh
+cd "${owd}"
