@@ -5,5 +5,5 @@ data_path=$(realpath $1)
 
 cd "$impldir/mneumann/1brc-elixir"
 ln -sf "${data_path}" ./measurements.txt
-(git_metadata && $timecmd mix run --no-mix-exs ./1brc.exs ./measurements.txt 2>&1) > "${outdir}/mneumann.50M.txt"
+(git_metadata && $timecmd mix run --no-mix-exs ./1brc.exs ./measurements.txt Elixir.OBRC.Store.ETS 2>&1) > "${outdir}/mneumann.50M.txt"
 cd "${owd}"
