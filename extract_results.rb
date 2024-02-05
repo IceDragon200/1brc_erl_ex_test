@@ -1,101 +1,76 @@
 #!/usr/bin/env ruby
-out_dir = ARGV.first
-results_1b = {}
-results_50m = {}
 
-def sort_results(results)
-  keys = results.keys
-  keys.sort_by do |key|
-    row = results[key]
-    (row && row[0]) || "99:99:99"
-  end
-end
+def parse_results(out_dir)
+  results = {}
+  Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
+    time = nil
+    cpu = nil
+    mem = nil
+    exit_status = nil
 
-Dir.glob(File.join(out_dir, "*.txt")).each do |filename|
-  time = nil
-  cpu = nil
-  mem = nil
-  exit_status = nil
+    File.foreach(filename) do |line|
+      case line
+      when /\A\s+Elapsed \(wall clock\) time \(h:mm:ss or m:ss\):\s+(.+)\n/
+        time = $1.rjust(8, '0')
 
-  File.read(filename).each_line do |line|
-    case line
-    when /\A\s+Elapsed \(wall clock\) time \(h:mm:ss or m:ss\):\s+(.+)\n/
-      time = $1.rjust(8, '0')
+      when /\A\s+Percent of CPU this job got:\s+(.+)\n/
+        cpu = $1
 
-    when /\A\s+Percent of CPU this job got:\s+(.+)\n/
-      cpu = $1
+      when /\A\s+Maximum resident set size \(kbytes\):\s+(.+)\n/
+        mem = $1
+      when /\A\s+Exit status:\s+(\d+)\n/
+        exit_status = ($1).to_i
 
-    when /\A\s+Maximum resident set size \(kbytes\):\s+(.+)\n/
-      mem = $1
-
-    when /\A\s+Exit status:\s+(\d+)\n/
-      exit_status = ($1).to_i
-
-    else
-      p line
+      else
+        p line
+      end
     end
+
+    contrib, bench =
+    case File.basename(filename).split(".")
+    in [contrib, "1B", "txt"]
+      [contrib, "1B"]
+    in [contrib, "50M", "txt"]
+      [contrib, "50M"]
+    end
+
+    result = {contrib: contrib, time: time, cpu: cpu, mem: mem, exit_status: exit_status}
+
+    results[bench] ||= []
+    results[bench] << result
+  end
+  results
+end
+
+def print_results(results, variant)
+  colwidth = [40, 13, 10, 12, 11]
+  template = "| " + colwidth.map{|c| "%#{c}s"}.join(" | ") + " |"
+
+  puts "Here are the #{variant} Results:"
+
+  puts(template % ["Contributor", "Time (#{variant})", "CPU% (#{variant})", "Mem kb (#{variant})", "Comments"])
+  puts(template % colwidth.map{|c| "-" * c})
+
+  results.sort_by {|r| r[:time] || "99:99:99"}.each do |r|
+    failed = r[:exit_status] != 0
+    comment = if failed then "Exit: #{r[:exit_status]}" else "" end
+
+    values = [r[:contrib], r[:time], r[:cpu], r[:mem], comment]
+
+    # Strike-trough failed results
+    values = values.map {|v| "~~#{v}~~"}.to_a if failed
+
+    puts(template % values)
   end
 
-  case File.basename(filename).split(".")
-  in [contrib, "1B", "txt"]
-    results_1b[contrib] = [time, cpu, mem, exit_status]
-
-  in [contrib, "50M", "txt"]
-    results_50m[contrib] = [time, cpu, mem, exit_status]
-  end
+  puts ""
+  puts ""
+  puts ""
 end
 
-keys = results_50m.keys
-
-###
-# First let's print the 50M results
-###
-
-rows = [
-  "| Contributor | Time (50M) | CPU% (50M) | Mem kb (50M) | Comments |",
-  "| ----------- | ---------- | ---------- | ------------ | -------- |",
-]
-
-template = "| %40s | %10s | %10s | %12s | %9s |"
-
-# Sort keys based on the Time (50M) in ascending order
-sorted_keys = sort_results(results_50m)
-
-sorted_keys.each do |key|
-  time50M, cpu50M, mem50M, exitStatus50M = *results_50m[key]
-
-  comment = if exitStatus50M == 0 then "" else "Exit status: #{exitStatus50M}" end
-
-  rows.push(template % [key, time50M, cpu50M, mem50M, comment])
+if __FILE__ == $0
+  out_dir = ARGV.first
+  results = parse_results(out_dir)
+  print_results(results["50M"] || [], "50M")
+  print_results(results["1B"] || [], "1B")
 end
-puts "Here are the 50M Results:"
-puts rows
-
-puts ""
-puts ""
-puts ""
-
-###
-# Now let's print the 1B results
-###
-keys = results_1b.keys
-
-rows = [
-  "| Contributor | Time (1B)  | CPU% (1B)  | Mem kb (1B)  | Comments |",
-  "| ----------- | ---------- | ---------- | ------------ | -------- |",
-]
-
-template = "| %40s | %10s | %10s | %12s | %9s |"
-
-# Sort keys based on the Time (1B) in ascending order
-sorted_keys = sort_results(results_1b)
-
-sorted_keys.each do |key|
-  time1B, cpu1B, mem1B, exitStatus1B = *results_1b[key]
-
-  comment = if exitStatus1B == 0 then "" else "Exit status: #{exitStatus1B}" end
-
-  rows.push(template % [key, time1B, cpu1B, mem1B, comment])
-end
-puts "Here are the 1B Results:"
-puts rows
