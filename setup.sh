@@ -24,18 +24,27 @@ cd "${owd}"
 cd "${impldir}/rparcus/ex_1brc"
 mix deps.get
 mix compile
+
 cat <<__EOF__ > ./run-with_explorer.exs
 #!/usr/bin/env -S mix run
 WithExplorer.run()
 __EOF__
+
 cat <<__EOF__ > ./run-just_elixir.exs
 #!/usr/bin/env -S mix run
 JustElixir.run()
 __EOF__
+
 cat <<__EOF__ > ./run-better_file_reader.exs
 #!/usr/bin/env -S mix run
 BetterFileReader.run()
 __EOF__
+
+cat <<__EOF__ > ./run-runtime_compiled.exs
+#!/usr/bin/env -S mix run
+RuntimeCompiled.run()
+__EOF__
+
 chmod +x ./run-*.exs
 cd "${owd}"
 
